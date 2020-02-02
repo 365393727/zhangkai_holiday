@@ -1,0 +1,31 @@
+server:
+    port: 8060
+spring:
+    profiles:
+        active: path_route
+    cloud:
+        nacos:
+            discovery:
+                server-addr: 127.0.0.1:8848
+
+    application:
+        name: upms-nacos-gateway
+
+
+---
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: path_route
+          uri: lb://zk-nacos-feign
+          predicates:
+            - Path=/feign/**
+          filters:
+            - StripPrefix=1
+  profiles: path_route
+
+
+
+
+

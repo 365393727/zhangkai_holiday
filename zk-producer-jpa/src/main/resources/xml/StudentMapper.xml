@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangkai.dao.StudentMapper">
+
+    <!-- 列表 -->
+    <select id="selectObject" resultType="map">
+        SELECT a.*,
+        SUM(CASE b.course_name WHEN '语文' THEN b.fraction ELSE 0 END) AS 'yuwen',
+        SUM(CASE b.course_name WHEN '数学' THEN b.fraction ELSE 0 END) AS 'shuxue',
+        SUM(CASE b.course_name WHEN '英语' THEN b.fraction ELSE 0 END) AS 'yingyu',
+        SUM(CASE b.course_name WHEN '物理' THEN b.fraction ELSE 0 END) AS 'wuli',
+        SUM(CASE b.course_name WHEN '化学' THEN b.fraction ELSE 0 END) AS 'huaxue',
+        SUM(CASE b.course_name WHEN 'Java' THEN b.fraction ELSE 0 END) AS 'ja',
+        SUM(CASE b.course_name WHEN 'SSH' THEN b.fraction ELSE 0 END) AS 'ssh',
+        SUM(CASE b.course_name WHEN 'SSM' THEN b.fraction ELSE 0 END) AS 'ssm',
+        SUM(b.fraction) AS 'sumtoble'
+        FROM  t_student a LEFT JOIN t_house b ON a.id=b.`stu_id`
+
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like concat('%',#{name},'%')
+            </if>
+
+            <if test="courseName != null">
+                and b.course_name = #{courseName}
+            </if>
+
+        </where>
+
+        GROUP BY a.id
+
+    </select>
+    <!-- 添加 -->
+    <insert id="addStudent" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+
+        insert INTO t_student set name=#{name},stu_no=#{stuNo}
+
+    </insert>
+    <!-- 修改 -->
+    <update id="updateStudent">
+
+        update t_student set name=#{name},stu_no=#{stuNo} where id=#{id}
+
+    </update>
+
+
+    <!-- 删除 -->
+    <delete id="deleteStudentById">
+        delete from t_student where id=#{id}
+    </delete>
+
+    <!-- 单查 -->
+    <select id="selectStudentById" resultType="com.zhangkai.entity.THouse">
+
+        SELECT * FROM t_student WHERE id=#{id}
+
+    </select>
+
+
+
+</mapper>

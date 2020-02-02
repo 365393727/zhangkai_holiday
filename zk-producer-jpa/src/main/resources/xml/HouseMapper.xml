@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangkai.dao.HouseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhangkai.entity.THouse">
+        <id column="id" property="id" />
+        <result column="course_name" property="courseName" />
+        <result column="fraction" property="fraction" />
+        <result column="stu_id" property="stuId" />
+    </resultMap>
+
+    <!-- 添加 -->
+    <insert id="addTHouse">
+
+        insert INTO t_house set course_name=#{courseName},fraction=#{fraction},stu_id=#{stuId}
+
+    </insert>
+    <!-- 学生stu_id删除 -->
+    <delete id="deleteById">
+        delete from t_house where stu_id=#{id}
+    </delete>
+    <!-- 根据学生ID查询 -->
+    <select id="selectTHouseById" resultMap="BaseResultMap">
+
+        SELECT * FROM t_house WHERE stu_id=#{id}
+
+    </select>
+
+
+    <!-- 根据成绩单主键ID删除 -->
+    <delete id="deleteHouseById">
+        delete from t_house where id=#{id}
+    </delete>
+
+
+</mapper>
